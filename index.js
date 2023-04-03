@@ -49,7 +49,7 @@ schedule("* * * * *", async () => {
     // Check if the website is down and if it's been more than 10 minutes since the last notification
     if (!isUp && (website.isUp || timeSinceLastNotification >= 10)) {
       // Check again this website
-      if (await checkWebsiteStatus(website.url)) {
+      if (!(await checkWebsiteStatus(website.url))) {
         // Send a message to your Telegram chat when a website is down
         bot.sendMessage(
           chatId,
