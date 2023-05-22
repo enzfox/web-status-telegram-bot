@@ -24,7 +24,7 @@ cp .env.example .env
 Edit .env with:
   - TELEGRAM_BOT_TOKEN [@BotFather](https://t.me/BotFather)  
   - TELEGRAM_CHAT_ID [@userinfobot](https://t.me/userinfobot)  
-  - WEBSITES_URLS - your websites urls
+  - WEBSITES_URLS - your websites urls, comma separated (https://google.com,https://yahoo.com)
 
 # Run
 
