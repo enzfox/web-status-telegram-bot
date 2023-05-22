@@ -66,16 +66,16 @@ schedule("* * * * *", async () => {
       }
     } else if (isUp && !website.isUp) {
       // Calculate downtime duration
-      const downtimeDuration = (currentTime - website.downSince) / 1000 / 60; // Convert to minutes
+      const downtimeDuration = Math.floor(
+        (currentTime - website.downSince) / 1000 / 60
+      ); // Convert to minutes
 
       // Send a message to your Telegram chat when a website is back up
       bot.sendMessage(
         chatId,
-        `✅ The website ${
-          website.url
-        } is back up. It was down for approximately ${Math.floor(
-          downtimeDuration
-        )} minutes.`
+        `✅ The website ${website.url} is back up.
+        \n\n
+        ⏳ It was down for approximately ${downtimeDuration} minutes.`
       );
 
       // Update website downtime status
