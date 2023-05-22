@@ -3,5 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
     restart: always
