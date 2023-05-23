@@ -34,7 +34,7 @@ async function checkWebsiteStatus(url) {
 // Schedule the website checker to run every minute (use a different cron pattern if needed)
 schedule("* * * * *", async () => {
   // Get current time
-  const currentTime = new Date();
+  const currentTime = new Date().getTime(); // Use getTime() to get time in milliseconds
 
   // Iterate through each website
   for (const website of websiteStatus) {
