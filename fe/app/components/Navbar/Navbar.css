@@ -1,0 +1,100 @@
+:root {
+  --transition-duration: 0.3s;
+  --nav-shadow: rgba(0, 0, 0, 0.4) 0 4px 4px, rgba(0, 0, 0, 0.3) 0 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0 -5px 0 inset;
+  --icon-background-color: #afd526;
+  --icon-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+}
+
+nav {
+  position: fixed;
+  bottom: 1.8rem;
+  left: 1rem;
+  right: 1rem;
+  border-radius: 5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  box-shadow: var(--nav-shadow);
+  transition: all var(--transition-duration) ease-out;
+  background-color: #3b4880;
+  z-index: 10;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+nav:hover {
+  transform: scale(1.01);
+}
+
+.dark nav {
+  background-color: #232b4d;
+}
+
+nav a {
+  position: relative;
+  height: 5rem;
+  width: 5rem;
+  color: #fff;
+  text-decoration: none;
+  transition: all var(--transition-duration) ease-out;
+  cursor: pointer;
+}
+
+nav a.active img {
+  transition: all var(--transition-duration) ease-in;
+  top: -3rem;
+}
+
+nav a.active p {
+  top: 2.5rem;
+  opacity: 1;
+}
+
+nav a img {
+  position: absolute;
+  height: 5rem;
+  width: 5rem;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all var(--transition-duration) ease-out;
+  z-index: 1;
+}
+
+nav a p {
+  position: absolute;
+  text-align: center;
+  transition: all var(--transition-duration) ease-out;
+  z-index: 0;
+  top: 0;
+  opacity: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--icon-background-color);
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  box-shadow: var(--icon-shadow);
+}
+
+@media (max-width: 768px) {
+  nav {
+    max-height: 80px;
+  }
+
+  nav a {
+    height: 6rem;
+  }
+
+  nav a img {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  nav a p {
+    font-size: 0.8rem;
+  }
+}
