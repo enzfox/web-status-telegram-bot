@@ -8,7 +8,7 @@
 git clone https://github.com/als698/web-status-telegram-bot.git
 ```
 
-Add your firebase credentials as firebase-auth.json.
+Add your firebase credentials as `firebase-auth.json` to `web-status-telegram-bot/be` directory.
 
 ### Install dependencies
 
