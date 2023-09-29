@@ -21,6 +21,8 @@ cp .env.example .env
 
 Update the `.env` file with your firebase config.
 
+To enable the registration feature on the login page, set `NEXT_PUBLIC_REGISTRATION_ENABLED=true` in the `.env` file.
+
 ### Development
 
 ```bash

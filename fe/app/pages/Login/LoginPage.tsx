@@ -13,6 +13,8 @@ import { auth } from "@/app/utils/Firebase";
 import usePageTitle from "@/app/hooks/usePageTitle";
 import LoadingScreen from "@/app/components/LoadingScreen/LoadingScreen";
 
+const canRegister = process.env.NEXT_PUBLIC_REGISTRATION_ENABLED === "true";
+
 export default function LoginPage() {
   usePageTitle("Authentication");
 
@@ -76,6 +78,8 @@ export default function LoginPage() {
   };
 
   const handleRegister = () => {
+    if (!canRegister) return setAuthError("Registration is disabled");
+
     if (!email || !password)
       return setAuthError("Please enter email and password");
 
@@ -142,12 +146,14 @@ export default function LoginPage() {
                 onClick={handleLogin}
               />
 
-              <Button
-                style={{ borderRadius: 0 }}
-                label="Register"
-                onClick={handleRegister}
-                severity="help"
-              />
+              {canRegister && (
+                <Button
+                  style={{ borderRadius: 0 }}
+                  label="Register"
+                  onClick={handleRegister}
+                  severity="help"
+                />
+              )}
             </div>
           </Card>
         </div>
