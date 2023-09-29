@@ -3,7 +3,7 @@
 ### Clone
 
 ```bash
-git clone https://github.com/als698/web-status-telegram-bot.git
+git clone https://github.com/enzfox/web-status-telegram-bot.git
 ```
 
 ### Install dependencies
