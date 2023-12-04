@@ -12,7 +12,7 @@ import usePageTitle from "../../hooks/usePageTitle";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 
-const canRegister = false;
+const canRegister = import.meta.env.VITE_REGISTRATION_ENABLED === "true";
 
 export default function LoginPage() {
   usePageTitle("Authentication");

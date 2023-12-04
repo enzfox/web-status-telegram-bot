@@ -13,10 +13,15 @@ cd web-status-telegram-bot/fe
 npm install
 ```
 
-### Admin Registration
+### Environment variables
 
-To enable the registration feature on the login page, set canRegister const to true in
-the `src/pages/Login/LoginPage.tsx` file.
+```bash
+cp .env.example .env
+```
+
+Update the `.env` file with your firebase config.
+
+To enable the registration feature on the login page, set `VITE_REGISTRATION_ENABLED=true` in the `.env` file.
 
 ### Development
 
