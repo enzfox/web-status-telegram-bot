@@ -21,3 +21,5 @@ jobs:
           channelId: live
           projectId: web-status-4cccf
           entryPoint: fe
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
