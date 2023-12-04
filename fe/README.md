@@ -13,15 +13,10 @@ cd web-status-telegram-bot/fe
 npm install
 ```
 
-### Environment variables
+### Admin Registration
 
-```bash
-cp .env.example .env
-```
-
-Update the `.env` file with your firebase config.
-
-To enable the registration feature on the login page, set `NEXT_PUBLIC_REGISTRATION_ENABLED=true` in the `.env` file.
+To enable the registration feature on the login page, set canRegister const to true in
+the `src/pages/Login/LoginPage.tsx` file.
 
 ### Development
 
@@ -29,13 +24,20 @@ To enable the registration feature on the login page, set `NEXT_PUBLIC_REGISTRAT
 npm run dev
 ```
 
-### Production
+### Production Build
 
 ```bash
 npm run build
-npm run start
 ```
 
 ### Firebase Deploy
 
-Check the Next.js [deployment documentation](https://firebase.google.com/docs/hosting/frameworks/nextjs).
+```bash
+npm run deploy
+```
+
+or
+
+```bash
+firebase deploy --only hosting
+```
