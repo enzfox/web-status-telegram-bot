@@ -1,5 +1,6 @@
 import { Card } from "primereact/card";
 import "./InfoCard.scss";
+import { CSSProperties } from "react";
 
 interface InfoCardProps {
   card: {
@@ -8,12 +9,19 @@ interface InfoCardProps {
     content: string;
     image: string;
     cardBackground: string;
+    style: CSSProperties;
   };
 }
 
 export default function InfoCard({ card }: InfoCardProps) {
   const header = (
-    <img alt={card.title} src={card.image} height={500} width={500} />
+    <img
+      alt={card.title}
+      src={card.image}
+      height={300}
+      width={300}
+      className="h-[300px]"
+    />
   );
 
   return (
@@ -24,6 +32,7 @@ export default function InfoCard({ card }: InfoCardProps) {
           subTitle={card.subTitle}
           header={header}
           className={card.cardBackground + " h-[100%]"}
+          style={card.style}
         >
           <p
             className="m-0 text-center"

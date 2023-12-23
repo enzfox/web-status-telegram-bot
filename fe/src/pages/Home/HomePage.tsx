@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../../utils/Firebase";
 
-import downImage from "../../assets/images/down.webp";
-import onlineImage from "../../assets/images/online.webp";
-import historyImage from "../../assets/images/history.webp";
+import downImage from "../../assets/images/down.svg";
+import onlineImage from "../../assets/images/online.svg";
+import historyImage from "../../assets/images/history.svg";
 
 function HomePage() {
   const [downWebsites, setDownWebsites] = useState<WebsiteInterface[]>([]);
@@ -148,15 +148,15 @@ function HomePage() {
     <>
       <PageTitle title="Dashboard" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
         <InfoCard
           card={{
             title: cards[0].title,
             subTitle: cards[0].subTitle,
             content: cards[0].content,
             image: cards[0].image,
-            cardBackground:
-              "bg-rose-500 dark:bg-red-600 transition-colors duration-300",
+            cardBackground: "transition-colors duration-300",
+            style: { backgroundColor: "#FF6B6B" },
           }}
         />
 
@@ -166,8 +166,8 @@ function HomePage() {
             subTitle: cards[1].subTitle,
             content: cards[1].content,
             image: cards[1].image,
-            cardBackground:
-              "bg-emerald-500 dark:bg-green-600 transition-colors duration-300",
+            cardBackground: "transition-colors duration-300",
+            style: { backgroundColor: "#5B803B" },
           }}
         />
 
@@ -178,8 +178,8 @@ function HomePage() {
               subTitle: cards[2].subTitle,
               content: cards[2].content,
               image: cards[2].image,
-              cardBackground:
-                "bg-sky-500 dark:bg-blue-600 transition-colors duration-300",
+              cardBackground: "transition-colors duration-300",
+              style: { backgroundColor: "#346A80" },
             }}
           />
         </div>
