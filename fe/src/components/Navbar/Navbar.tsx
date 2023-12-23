@@ -1,20 +1,20 @@
-import { FC } from "react";
-import computer from "../../assets/images/dash.webp";
-import websites from "../../assets/images/list.webp";
-import config from "../../assets/images/settings.webp";
+import { CSSProperties, ElementType, FC } from "react";
 import SpeedDialComponent from "../Navbar/SpeedDialComponent";
 import { Link, useLocation } from "react-router-dom";
+import { FaGlobe } from "react-icons/fa6";
+import { BsCollectionFill, BsGearFill } from "react-icons/bs";
 
 import "./Navbar.scss";
 
 interface NavItemProps {
   href: string;
   pathName: string;
-  imageSrc: string;
+  Icon: ElementType;
   label: string;
+  style: CSSProperties;
 }
 
-const NavItem: FC<NavItemProps> = ({ href, pathName, imageSrc, label }) => {
+const NavItem: FC<NavItemProps> = ({ href, pathName, Icon, label, style }) => {
   return (
     <Link
       to={href}
@@ -22,13 +22,7 @@ const NavItem: FC<NavItemProps> = ({ href, pathName, imageSrc, label }) => {
         pathName === href ? "active" : ""
       }`}
     >
-      <img
-        src={imageSrc}
-        alt=""
-        width={100}
-        height={100}
-        className="shadow-2xl drop-shadow-2xl rounded-full"
-      />
+      <Icon className="shadow-2xl drop-shadow-2xl rounded-full" style={style} />
 
       <p>{label}</p>
     </Link>
@@ -47,20 +41,25 @@ export default function Navbar() {
         <NavItem
           href="/"
           pathName={pathName}
-          imageSrc={computer}
+          Icon={FaGlobe}
           label="Dash"
+          style={{ backgroundColor: "#FF6B6B" }}
         />
+
         <NavItem
           href="/websites"
           pathName={pathName}
-          imageSrc={websites}
+          Icon={BsCollectionFill}
           label="Websites"
+          style={{ backgroundColor: "#2A335C" }}
         />
+
         <NavItem
           href="/config"
           pathName={pathName}
-          imageSrc={config}
+          Icon={BsGearFill}
           label="Config"
+          style={{ backgroundColor: "#757FFF" }}
         />
       </nav>
     </>

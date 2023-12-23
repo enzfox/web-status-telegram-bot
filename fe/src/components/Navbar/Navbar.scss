@@ -37,9 +37,9 @@ nav {
       scale: 1.1;
     }
 
-    &.active img {
+    &.active svg {
       transition: all $transition-duration ease-in;
-      top: -3rem;
+      top: -4rem;
     }
 
     &.active p {
@@ -47,7 +47,7 @@ nav {
       opacity: 1;
     }
 
-    img {
+    svg {
       position: absolute;
       height: 5rem;
       width: 5rem;
@@ -56,6 +56,7 @@ nav {
       transform: translateX(-50%);
       transition: all $transition-duration ease-out;
       z-index: 1;
+      padding: 0.5rem;
     }
 
     p {
@@ -88,14 +89,14 @@ nav {
     a {
       height: 6rem;
 
-      &.active img {
-        top: -1rem;
+      &.active svg {
+        top: -3rem;
         scale: 1.1;
       }
 
-      img {
-        height: 3rem;
-        width: 3rem;
+      svg {
+        height: 4rem;
+        width: 4rem;
       }
 
       p {
