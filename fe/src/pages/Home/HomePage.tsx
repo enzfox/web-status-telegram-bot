@@ -50,7 +50,7 @@ function HomePage() {
   async function fetchHistoryWebsites() {
     const q = query(collection(db, "websites"), where("history", "!=", []));
     const querySnapshot = await getDocs(q);
-    let websitesData = querySnapshot.docs.map(
+    let websiteData = querySnapshot.docs.map(
       (doc) =>
         ({
           id: doc.id,
@@ -61,7 +61,7 @@ function HomePage() {
     const firstOfMonth = new Date();
     firstOfMonth.setDate(1);
 
-    websitesData = websitesData
+    websiteData = websiteData
       .filter((website) => {
         const websiteDate = new Date(
           website.history[website.history.length - 1].date.seconds * 1000,
@@ -72,7 +72,7 @@ function HomePage() {
       })
       .slice(0, 5);
 
-    setHistoryWebsites(websitesData);
+    setHistoryWebsites(websiteData);
   }
 
   function getWebsiteUrl(website: WebsiteInterface) {
