@@ -1,4 +1,4 @@
-import { CSSProperties, ElementType, FC } from "react";
+import { ElementType, FC } from "react";
 import SpeedDialComponent from "../Navbar/SpeedDialComponent";
 import { Link, useLocation } from "react-router-dom";
 import { FaGlobe } from "react-icons/fa6";
@@ -11,10 +11,9 @@ interface NavItemProps {
   pathName: string;
   Icon: ElementType;
   label: string;
-  style: CSSProperties;
 }
 
-const NavItem: FC<NavItemProps> = ({ href, pathName, Icon, label, style }) => {
+const NavItem: FC<NavItemProps> = ({ href, pathName, Icon, label }) => {
   return (
     <Link
       to={href}
@@ -22,7 +21,7 @@ const NavItem: FC<NavItemProps> = ({ href, pathName, Icon, label, style }) => {
         pathName === href ? "active" : ""
       }`}
     >
-      <Icon className="shadow-2xl drop-shadow-2xl rounded-full" style={style} />
+      <Icon className="shadow-2xl drop-shadow-2xl rounded-full" />
 
       <p>{label}</p>
     </Link>
@@ -41,17 +40,15 @@ export default function Navbar() {
         <NavItem
           href="/"
           pathName={pathName}
-          Icon={FaGlobe}
+          Icon={BsCollectionFill}
           label="Dash"
-          style={{ backgroundColor: "#FF6B6B" }}
         />
 
         <NavItem
           href="/websites"
           pathName={pathName}
-          Icon={BsCollectionFill}
+          Icon={FaGlobe}
           label="Websites"
-          style={{ backgroundColor: "#2A335C" }}
         />
 
         <NavItem
@@ -59,7 +56,6 @@ export default function Navbar() {
           pathName={pathName}
           Icon={BsGearFill}
           label="Config"
-          style={{ backgroundColor: "#757FFF" }}
         />
       </nav>
     </>
