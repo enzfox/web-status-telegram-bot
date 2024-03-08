@@ -26,23 +26,21 @@ async function checkWebsiteStatus(url, websiteId) {
     const isUp = response.status === 200;
 
     // Update Firestore with the website status
-    await updateWebsiteStatus(websiteId, isUp);
+    await updateWebsiteStatus(websiteId, { isUp: isUp });
 
     return isUp;
   } catch (error) {
     // Handle errors and update Firestore with the website status
-    await updateWebsiteStatus(websiteId, false);
+    await updateWebsiteStatus(websiteId, { isUp: false });
     return false;
   }
 }
 
-async function updateWebsiteStatus(websiteId, isUp) {
+async function updateWebsiteStatus(websiteId, data) {
   const websiteDocRef = db.doc(`websites/${websiteId}`);
 
   try {
-    await websiteDocRef.update({
-      isUp,
-    });
+    await websiteDocRef.update(data);
   } catch (error) {
     console.error("Failed to update website status:", error);
   }
