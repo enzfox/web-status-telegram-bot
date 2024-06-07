@@ -1,11 +1,12 @@
-import { getBot, initBot } from "./bot.js";
 import {
   checkWebsiteStatus,
   getWebsitesFromFirestore,
-  updateWebsiteStatus,
   updateHistoryStatus,
-} from "./website.js";
-import { getConfigData } from "./firebase.js";
+  updateWebsiteStatus,
+  WebsiteData,
+} from "./website";
+import { getBot, initBot } from "./bot";
+import { getConfigData } from "./firebase";
 
 async function init() {
   await initBot();
@@ -13,7 +14,7 @@ async function init() {
   const bot = getBot();
 
   // Initially fetch website status
-  let websiteStatus = await getWebsitesFromFirestore();
+  let websiteStatus: WebsiteData[] = await getWebsitesFromFirestore();
 
   // Set an interval to update website status every hour
   setInterval(async () => {
@@ -27,7 +28,7 @@ async function init() {
 }
 
 // Check all websites
-async function checkWebsites(websiteStatus, bot) {
+async function checkWebsites(websiteStatus: WebsiteData[], bot: any) {
   console.log("Checking websites...\n");
 
   for (const website of websiteStatus) {
@@ -36,19 +37,19 @@ async function checkWebsites(websiteStatus, bot) {
 }
 
 // Check a website
-async function checkWebsite(website, bot) {
+async function checkWebsite(website: WebsiteData, bot: any) {
   // wasUp take the previous status of the website
   const { isUp: wasUp, lastNotification, downSince } = website;
 
   // Check if the website is up
-  const isUp = await checkWebsiteStatus(website.website, website.id);
+  const isUp = await checkWebsiteStatus(website.website, website.id as string);
 
   website.isUp = isUp;
 
   const currentTime = new Date();
 
   const timeSinceLastNotification = lastNotification
-    ? (currentTime - new Date(lastNotification)) / 1000 / 60
+    ? (currentTime.getTime() - new Date(lastNotification).getTime()) / 1000 / 60
     : 0;
 
   // Check if a notification is needed, if the website is down and was up, or is still down and the last notification was sent more than 10 minutes ago
@@ -65,14 +66,19 @@ async function checkWebsite(website, bot) {
   }
 }
 
-async function sendDownNotification(website, bot, currentTime, downSince) {
+async function sendDownNotification(
+  website: WebsiteData,
+  bot: any,
+  currentTime: Date,
+  downSince: Date | null,
+) {
   // Check again if the website is down
-  const isUp2 = await checkWebsiteStatus(website.website, website.id);
+  const isUp2 = await checkWebsiteStatus(website.website, website.id as string);
   if (isUp2) return;
 
   bot.sendMessage(
     getConfigData().chatId,
-    `⚠️ The website ${website.website} appears to be down.`
+    `⚠️ The website ${website.website} appears to be down.`,
   );
 
   website.lastNotification = currentTime;
@@ -81,18 +87,18 @@ async function sendDownNotification(website, bot, currentTime, downSince) {
     website.downSince = currentTime;
   }
 
-  updateWebsiteStatus(website.id, {
+  await updateWebsiteStatus(website.id as string, {
     lastNotification: website.lastNotification,
     downSince: website.downSince,
   });
 
-  // Recheck the website while is down every 10 seconds, when is up clear the interval, don't recheck the website if interval is already set
+  // Recheck the website while is down every 10 seconds, when is up clear the interval, don't recheck the website if the interval is already set
   if (!website.interval) {
     website.interval = setInterval(async () => {
       await checkWebsite(website, bot);
 
       // If the website is back up, clear the interval
-      if (website.isUp) {
+      if (website.isUp && website.interval) {
         clearInterval(website.interval);
         website.interval = null;
       }
@@ -100,26 +106,33 @@ async function sendDownNotification(website, bot, currentTime, downSince) {
   }
 }
 
-async function sendRecoveryNotification(website, bot, currentTime, downSince) {
+async function sendRecoveryNotification(
+  website: WebsiteData,
+  bot: any,
+  currentTime: Date,
+  downSince: Date | null,
+) {
   const downTime =
-    downSince instanceof Date ? (currentTime - downSince) / 1000 : 0;
+    downSince instanceof Date
+      ? (currentTime.getTime() - downSince.getTime()) / 1000
+      : 0;
 
   const downTimeMinutes = Math.floor(downTime / 60);
 
-  await updateHistoryStatus(website.id, downTime);
+  await updateHistoryStatus(website.id as string, downTime);
 
   bot.sendMessage(
     getConfigData().chatId,
-    `✅ The website ${website.website} is back up. ⏰ It was down for approximately ${downTimeMinutes} minutes.`
+    `✅ The website ${website.website} is back up. ⏰ It was down for approximately ${downTimeMinutes} minutes.`,
   );
 
   website.lastNotification = null;
   website.downSince = null;
 
-  updateWebsiteStatus(website.id, {
+  await updateWebsiteStatus(website.id as string, {
     lastNotification: null,
     downSince: null,
   });
 }
 
-init();
+init().then(() => console.log("App started"));

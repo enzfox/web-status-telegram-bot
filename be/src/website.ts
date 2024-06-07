@@ -1,26 +1,40 @@
 import get from "axios";
-import { db } from "./firebase.js";
-import admin from "firebase-admin";
+import { db } from "./firebase";
+import * as admin from "firebase-admin";
 
-async function getWebsitesFromFirestore() {
+export interface WebsiteData {
+  id?: string;
+  website: string;
+  isUp: boolean;
+  lastNotification: Date | null;
+  downSince: Date | null;
+  interval: NodeJS.Timeout | null;
+
+  [key: string]: any;
+}
+
+async function getWebsitesFromFirestore(): Promise<WebsiteData[]> {
   const websitesCollection = db.collection("websites");
   const websitesSnapshot = await websitesCollection
     .where("status", "==", true)
     .get();
 
-  const websites = [];
+  const websites: WebsiteData[] = [];
 
   websitesSnapshot.forEach((websiteDoc) => {
     websites.push({
       id: websiteDoc.id,
-      ...websiteDoc.data(),
+      ...(websiteDoc.data() as WebsiteData),
     });
   });
 
   return websites;
 }
 
-async function checkWebsiteStatus(url, websiteId) {
+async function checkWebsiteStatus(
+  url: string,
+  websiteId: string,
+): Promise<boolean> {
   try {
     const response = await get(url);
     const isUp = response.status === 200;
@@ -36,7 +50,10 @@ async function checkWebsiteStatus(url, websiteId) {
   }
 }
 
-async function updateWebsiteStatus(websiteId, data) {
+async function updateWebsiteStatus(
+  websiteId: string,
+  data: any,
+): Promise<void> {
   const websiteDocRef = db.doc(`websites/${websiteId}`);
 
   try {
@@ -46,7 +63,10 @@ async function updateWebsiteStatus(websiteId, data) {
   }
 }
 
-async function updateHistoryStatus(websiteId, downTime) {
+async function updateHistoryStatus(
+  websiteId: string,
+  downTime: number,
+): Promise<void> {
   const websiteDocRef = db.doc(`websites/${websiteId}`);
 
   try {

@@ -1,9 +1,9 @@
+import { fetchConfig, getConfigData } from "./firebase";
 import TelegramBot from "node-telegram-bot-api";
-import { fetchConfig, getConfigData } from "./firebase.js";
 
-let bot;
+let bot: TelegramBot;
 
-export async function initBot() {
+export async function initBot(): Promise<void> {
   try {
     await fetchConfig();
     const { botToken } = getConfigData();
@@ -13,6 +13,6 @@ export async function initBot() {
   }
 }
 
-export function getBot() {
+export function getBot(): TelegramBot {
   return bot;
 }
