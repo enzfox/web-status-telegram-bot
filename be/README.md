@@ -27,10 +27,10 @@ docker compose up -d
 npm install
 ```
 
-TSC and Nodemon are required to run the project. Install them globally if you haven't already.
+Nodemon is required to run the project. Install it globally if you haven't already.
 
 ```bash
-npm install -g typescript nodemon
+npm install -g nodemon
 ```
 
 ### Start the app

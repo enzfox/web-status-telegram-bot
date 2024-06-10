@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install -g typescript nodemon
+RUN npm install -g nodemon
 
 RUN npm ci --production
 
