@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN npm install -g typescript nodemon
+
 RUN npm ci --production
 
-CMD ["node", "index.js"]
+CMD ["npm", "run", "start"]
