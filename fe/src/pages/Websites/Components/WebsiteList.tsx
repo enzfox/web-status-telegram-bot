@@ -252,7 +252,7 @@ export default function WebsiteList({
                     return (
                       <div
                         key={day}
-                        className={`w-[20px] h-[20px] m-[2px] rounded ${boxColor}`}
+                        className={`w-[20px] h-[20px] m-[2px] rounded shadow-xl hover:shadow-2xl hover:scale-110 transform-gpu transition-all duration-300 ${boxColor}`}
                       />
                     );
                   })}
