@@ -13,6 +13,8 @@ import { Card } from "primereact/card";
 import { WebsiteInterface } from "../../../interfaces/WebsiteInterface";
 import { Button } from "primereact/button";
 import WebsiteForm from "../../../pages/Websites/Components/WebsiteForm";
+import { formatDownTime } from "../../../utils/timeUtils.tsx";
+import WebsiteHistory from "./WebsiteHistory.tsx";
 
 export default function WebsiteList({
   refetch: initialRefetch,
@@ -21,45 +23,56 @@ export default function WebsiteList({
 }) {
   const [websites, setWebsites] = useState<WebsiteInterface[]>([]);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
 
   const [refetch, setRefetch] = useState<boolean>(initialRefetch);
 
-  const [selectedWebsite, setSelectedWebsite] = useState<
+  const [selectedFormWebsite, setSelectedFormWebsite] = useState<
     WebsiteInterface | undefined
   >(undefined);
 
-  const openModal = () => {
-    setShowModal(true);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+
+  const [selectedHistoryWebsite, setSelectedHistoryWebsite] = useState<
+    WebsiteInterface | undefined
+  >(undefined);
+
+  const openHistoryModal = (website: WebsiteInterface) => {
+    setSelectedHistoryWebsite(website);
+    setShowHistoryModal(true);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const closeHistoryModal = () => {
+    setShowHistoryModal(false);
+  };
+
+  const closeFormModal = () => {
+    setShowFormModal(false);
 
     setRefetch(true);
   };
 
   function getLastDownTime(website: WebsiteInterface) {
-    const lastDownIndex = website.history?.length - 1;
-
-    return lastDownIndex > 0
+    return website.history?.length
       ? new Date(
-          website.history[lastDownIndex].date.seconds * 1000,
+          website.history[website.history.length - 1].date.seconds * 1000,
         ).toLocaleString()
       : " - ";
   }
 
   function getTotalDownTime(website: WebsiteInterface) {
-    const totalDownTime = website.history?.reduce((acc, curr) => {
-      return acc + curr.downTime;
-    }, 0);
+    let totalDownTime = 0;
 
-    return totalDownTime ? Math.floor(totalDownTime / 60) + " minutes" : " - ";
+    website.history.forEach((history) => {
+      totalDownTime += history.downTime;
+    });
+
+    return formatDownTime(totalDownTime);
   }
 
   function editWebsite(website: WebsiteInterface) {
-    setSelectedWebsite(website);
-    openModal();
+    setSelectedFormWebsite(website);
+    setShowFormModal(true);
   }
 
   async function deleteWebsite(website: WebsiteInterface) {
@@ -112,21 +125,28 @@ export default function WebsiteList({
               key={website.id}
               className="p-col-12 p-md-6 p-lg-4 md:max-w-[800px] mx-auto"
             >
-              <Card
-                title={website.name}
-                className="bg-violet-500 dark:bg-indigo-600 animate-fadeIn transition-colors duration-300 mb-5"
-              >
-                <div className="text-end">
-                  <Button
-                    icon="pi pi-pencil"
-                    className="mx-1"
-                    onClick={() => editWebsite(website)}
-                  />
+              <Card className="bg-violet-500 dark:bg-indigo-600 animate-fadeIn transition-colors duration-300 mb-5">
+                <div className="flex justify-between items-center mb-5">
+                  <h2 className="font-bold text-2xl">{website.name}</h2>
 
-                  <Button
-                    icon="pi pi-trash"
-                    onClick={() => deleteWebsite(website)}
-                  />
+                  <div className="text-end">
+                    <Button
+                      icon="pi pi-clock"
+                      className="mx-1"
+                      onClick={() => openHistoryModal(website)}
+                    />
+
+                    <Button
+                      icon="pi pi-pencil"
+                      className="mx-1"
+                      onClick={() => editWebsite(website)}
+                    />
+
+                    <Button
+                      icon="pi pi-trash"
+                      onClick={() => deleteWebsite(website)}
+                    />
+                  </div>
                 </div>
 
                 <a
@@ -138,6 +158,16 @@ export default function WebsiteList({
                 </a>
 
                 <div className="flex justify-between items-center mt-3">
+                  <div>
+                    <span className="">Online</span>
+                  </div>
+
+                  <div>
+                    <span className="">{website.isUp ? "Up" : "Down"}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-2">
                   <div>
                     <span className="">Last Downtime</span>
                   </div>
@@ -162,7 +192,9 @@ export default function WebsiteList({
                   </div>
 
                   <div>
-                    <span className="">{website.status ? "Up" : "Down"}</span>
+                    <span className="">
+                      {website.status ? "Active" : "Inactive"}
+                    </span>
                   </div>
                 </div>
               </Card>
@@ -172,9 +204,15 @@ export default function WebsiteList({
       </div>
 
       <WebsiteForm
-        showModal={showModal}
-        closeModal={closeModal}
-        website={selectedWebsite}
+        showModal={showFormModal}
+        closeModal={closeFormModal}
+        website={selectedFormWebsite}
+      />
+
+      <WebsiteHistory
+        showModal={showHistoryModal}
+        closeModal={closeHistoryModal}
+        website={selectedHistoryWebsite}
       />
     </>
   );
