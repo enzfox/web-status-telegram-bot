@@ -63,7 +63,7 @@ export default function WebsiteList({
   function getTotalDownTime(website: WebsiteInterface) {
     let totalDownTime = 0;
 
-    website.history.forEach((history) => {
+    website.history?.forEach((history) => {
       totalDownTime += history.downTime;
     });
 
@@ -209,7 +209,7 @@ export default function WebsiteList({
                 <div className="flex mt-5 justify-content-center">
                   {daysArray.map((day) => {
                     const today = new Date().getDate();
-                    const isDayInHistory = website.history.some(
+                    const isDayInHistory = website.history?.some(
                       (history) =>
                         new Date(history.date.seconds * 1000).getDate() ===
                           day &&
