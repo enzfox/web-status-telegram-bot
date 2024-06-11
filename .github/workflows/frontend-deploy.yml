@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd fe
-          npm install --force
+          npm install --legacy-peer-deps
           npm run build
 
       - name: Deploy to Firebase Hosting
