@@ -82,9 +82,9 @@ function HomePage() {
   }
 
   useEffect(() => {
-    fetchActiveWebsites();
-    fetchDownWebsites();
-    fetchHistoryWebsites();
+    fetchActiveWebsites().then();
+    fetchDownWebsites().then();
+    fetchHistoryWebsites().then();
   }, []);
 
   const cards = [

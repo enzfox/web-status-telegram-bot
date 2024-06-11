@@ -36,7 +36,7 @@ function Config() {
       }
     }
 
-    fetchConfig();
+    fetchConfig().then();
   }, [showToast]);
 
   const handleSubmit = async () => {

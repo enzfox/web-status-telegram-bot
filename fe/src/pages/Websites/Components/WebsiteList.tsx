@@ -96,10 +96,10 @@ export default function WebsiteList({
   }
 
   useEffect(() => {
-    fetchWebsites();
+    fetchWebsites().then();
 
     if (refetch || initialRefetch) {
-      fetchWebsites();
+      fetchWebsites().then();
     }
   }, [refetch, initialRefetch]);
 
