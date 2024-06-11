@@ -110,7 +110,7 @@ export default function LoginPage() {
         <div className="flex justify-content-center align-items-center h-[80vh]">
           <Card
             title="Authentication"
-            className="md:w-25rem shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-200"
+            className="md:w-25rem shadow-xl hover:shadow-2xl transform transition-all duration-200"
           >
             <div className="field">
               <label htmlFor="email">Email</label>
