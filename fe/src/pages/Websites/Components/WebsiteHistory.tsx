@@ -22,6 +22,10 @@ export default function WebsiteHistory({
     }
   }, [website]);
 
+  const sortedHistoryData = historyData
+    .slice()
+    .sort((a, b) => b.date.seconds - a.date.seconds);
+
   const totalDownTime = historyData.reduce(
     (total, history) => total + history.downTime,
     0,
@@ -34,7 +38,7 @@ export default function WebsiteHistory({
       header={`Website History (${website?.history?.length})`}
       className="w-[90%] max-w-[500px]"
     >
-      <DataTable value={historyData}>
+      <DataTable value={sortedHistoryData}>
         <Column
           field="downTime"
           header="Down Time"
