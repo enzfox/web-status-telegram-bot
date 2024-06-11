@@ -21,6 +21,7 @@ export default function WebsiteForm({
     name: "",
     website: "",
     status: true,
+    isUp: true,
   });
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function WebsiteForm({
         name: website.name,
         website: website.website,
         status: !!website.status,
+        isUp: website.isUp,
       });
     }
   }, [website]);
@@ -94,6 +96,7 @@ export default function WebsiteForm({
       name: "",
       website: "",
       status: true,
+      isUp: true,
     });
 
     setHasError(false);
