@@ -1,3 +1,6 @@
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+
 export interface WebsiteInterface {
   id: string;
   name: string;
@@ -10,8 +13,5 @@ export interface WebsiteInterface {
 
 export interface HistoryInterface {
   downTime: number;
-  date: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  date: firebase.firestore.Timestamp;
 }
