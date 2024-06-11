@@ -112,7 +112,7 @@ export default function WebsiteForm({
       <Dialog
         visible={showModal}
         onHide={closeModal}
-        header="Add New Website"
+        header="Website Form"
         className="w-[90%] max-w-[500px]"
         footer={
           <div>
