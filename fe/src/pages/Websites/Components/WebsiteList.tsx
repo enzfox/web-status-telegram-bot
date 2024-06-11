@@ -147,7 +147,7 @@ export default function WebsiteList({
               key={website.id}
               className="p-col-12 p-md-6 p-lg-4 md:max-w-[800px] mx-auto"
             >
-              <Card className="bg-violet-500 dark:bg-indigo-600 animate-fadeIn transition-colors duration-300 mb-5">
+              <Card className="bg-violet-500 dark:bg-indigo-600 animate-fadeIn hover:shadow-2xl hover:scale-[1.005] transition-all duration-500 mb-5">
                 <div className="flex justify-between items-center mb-5">
                   <h2 className="font-bold text-2xl break-all pr-3">
                     {website.name}
