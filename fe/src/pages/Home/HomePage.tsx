@@ -148,7 +148,7 @@ function HomePage() {
     <>
       <PageTitle title="Dashboard" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5 p-3">
         <InfoCard
           card={{
             title: cards[0].title,
