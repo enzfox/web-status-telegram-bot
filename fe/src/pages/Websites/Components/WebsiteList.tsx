@@ -52,6 +52,20 @@ export default function WebsiteList({
     setRefetch(true);
   };
 
+  function getUptimePercentage(website: WebsiteInterface) {
+    let totalDownTime = 0;
+
+    website.history?.forEach((history) => {
+      totalDownTime += history.downTime;
+    });
+
+    const totalPeriod = 30 * 24 * 60 * 60;
+    const uptime = totalPeriod - totalDownTime;
+    const uptimePercentage = (uptime / totalPeriod) * 100;
+
+    return uptimePercentage.toFixed(4);
+  }
+
   function getLastDownTime(website: WebsiteInterface) {
     return website.history?.length
       ? new Date(
@@ -177,7 +191,17 @@ export default function WebsiteList({
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center mt-2 w-full">
+                <div className="flex justify-between items-center mt-2">
+                  <div>
+                    <span>Uptime</span>
+                  </div>
+
+                  <div>
+                    <span>{getUptimePercentage(website)}%</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-2">
                   <div>
                     <span>Last Downtime</span>
                   </div>
