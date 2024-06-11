@@ -154,11 +154,13 @@ export default function WebsiteList({
                   </h2>
 
                   <div className="text-end flex">
-                    <Button
-                      icon="pi pi-clock"
-                      className="mr-1"
-                      onClick={() => openHistoryModal(website)}
-                    />
+                    {website?.history?.length ? (
+                      <Button
+                        icon="pi pi-clock"
+                        className="mr-1"
+                        onClick={() => openHistoryModal(website)}
+                      />
+                    ) : null}
 
                     <Button
                       icon="pi pi-pencil"
