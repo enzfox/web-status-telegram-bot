@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {isLoggedIn && <Navbar />}
 
         <ToastProvider>
-          <div className="container mx-auto p-5">{children}</div>
+          <div className="container mx-auto p-3">{children}</div>
         </ToastProvider>
       </PrimeReactProvider>
     </>
