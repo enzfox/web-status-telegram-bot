@@ -116,6 +116,14 @@ export default function WebsiteList({
     }
   }, [refetch, initialRefetch]);
 
+  const date = new Date();
+  const monthDays = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0,
+  ).getDate();
+  const daysArray = Array.from({ length: monthDays }, (_, i) => i + 1);
+
   return (
     <>
       <div className="row animate-fadeIn">
@@ -127,18 +135,20 @@ export default function WebsiteList({
             >
               <Card className="bg-violet-500 dark:bg-indigo-600 animate-fadeIn transition-colors duration-300 mb-5">
                 <div className="flex justify-between items-center mb-5">
-                  <h2 className="font-bold text-2xl">{website.name}</h2>
+                  <h2 className="font-bold text-2xl break-all pr-3">
+                    {website.name}
+                  </h2>
 
-                  <div className="text-end">
+                  <div className="text-end flex">
                     <Button
                       icon="pi pi-clock"
-                      className="mx-1"
+                      className="mr-1"
                       onClick={() => openHistoryModal(website)}
                     />
 
                     <Button
                       icon="pi pi-pencil"
-                      className="mx-1"
+                      className="mr-1"
                       onClick={() => editWebsite(website)}
                     />
 
@@ -159,43 +169,67 @@ export default function WebsiteList({
 
                 <div className="flex justify-between items-center mt-3">
                   <div>
-                    <span className="">Online</span>
+                    <span>Online</span>
                   </div>
 
                   <div>
-                    <span className="">{website.isUp ? "Up" : "Down"}</span>
+                    <span>{website.isUp ? "Up" : "Down"}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-2 w-full">
+                  <div>
+                    <span>Last Downtime</span>
+                  </div>
+                  <div>
+                    <span>{getLastDownTime(website)}</span>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center mt-2">
                   <div>
-                    <span className="">Last Downtime</span>
+                    <span>Total Downtime</span>
                   </div>
+
                   <div>
-                    <span className="">{getLastDownTime(website)}</span>
+                    <span>{getTotalDownTime(website)}</span>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center mt-2">
                   <div>
-                    <span className="">Total Downtime</span>
+                    <span>Status</span>
                   </div>
 
                   <div>
-                    <span className="">{getTotalDownTime(website)}</span>
+                    <span>{website.status ? "Active" : "Inactive"}</span>
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center mt-2">
-                  <div>
-                    <span className="">Status</span>
-                  </div>
+                <div className="flex mt-5 justify-content-center">
+                  {daysArray.map((day) => {
+                    const today = new Date().getDate();
+                    const isDayInHistory = website.history.some(
+                      (history) =>
+                        new Date(history.date.seconds * 1000).getDate() ===
+                          day &&
+                        new Date(history.date.seconds * 1000).getMonth() ===
+                          new Date().getMonth(),
+                    );
+                    const boxColor =
+                      day > today
+                        ? "bg-gray-800"
+                        : isDayInHistory
+                          ? "bg-amber-600"
+                          : "bg-emerald-600";
 
-                  <div>
-                    <span className="">
-                      {website.status ? "Active" : "Inactive"}
-                    </span>
-                  </div>
+                    return (
+                      <div
+                        key={day}
+                        className={`w-[20px] h-[20px] m-[2px] rounded ${boxColor}`}
+                      />
+                    );
+                  })}
                 </div>
               </Card>
             </div>
