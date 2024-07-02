@@ -1,4 +1,3 @@
-// Import necessary modules
 import { db } from "../../../utils/Firebase";
 import {
   collection,
@@ -15,6 +14,7 @@ import { Button } from "primereact/button";
 import WebsiteForm from "../../../pages/Websites/Components/WebsiteForm";
 import { formatDownTime } from "../../../utils/timeUtils.tsx";
 import WebsiteHistory from "./WebsiteHistory.tsx";
+import { Tooltip } from "primereact/tooltip";
 
 export default function WebsiteList({
   refetch: initialRefetch,
@@ -130,13 +130,11 @@ export default function WebsiteList({
     }
   }, [refetch, initialRefetch]);
 
-  const date = new Date();
-  const monthDays = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    0,
-  ).getDate();
-  const daysArray = Array.from({ length: monthDays }, (_, i) => i + 1);
+  const currentDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(currentDate.getDate() - 30);
+
+  const daysArray = Array.from({ length: 30 }, (_, i) => i + 1);
 
   return (
     <>
@@ -234,26 +232,42 @@ export default function WebsiteList({
 
                 <div className="flex mt-5 justify-content-center">
                   {daysArray.map((day) => {
-                    const today = new Date().getDate();
-                    const isDayInHistory = website.history?.some(
-                      (history) =>
-                        new Date(history.date.seconds * 1000).getDate() ===
-                          day &&
-                        new Date(history.date.seconds * 1000).getMonth() ===
-                          new Date().getMonth(),
+                    const dayDate = new Date(startDate);
+                    dayDate.setDate(dayDate.getDate() + day);
+
+                    const isDayInHistory = website.history?.some((history) => {
+                      const historyDate = new Date(history.date.seconds * 1000);
+                      return (
+                        historyDate.getDate() === dayDate.getDate() &&
+                        historyDate.getMonth() === dayDate.getMonth() &&
+                        historyDate.getFullYear() === dayDate.getFullYear() &&
+                        history.downTime > 0
+                      );
+                    });
+
+                    const boxColor = isDayInHistory
+                      ? "bg-amber-600"
+                      : "bg-emerald-600";
+
+                    const options = { day: "numeric", month: "short" };
+                    const formattedDate = dayDate.toLocaleDateString(
+                      undefined,
+                      options as any,
                     );
-                    const boxColor =
-                      day > today
-                        ? "bg-gray-800"
-                        : isDayInHistory
-                          ? "bg-amber-600"
-                          : "bg-emerald-600";
 
                     return (
-                      <div
-                        key={day}
-                        className={`w-[20px] h-[20px] m-[2px] rounded shadow-xl hover:shadow-2xl hover:scale-110 transform-gpu transition-all duration-300 ${boxColor}`}
-                      />
+                      <>
+                        <div
+                          id={`day-tooltip-${day}`}
+                          key={day}
+                          className={`w-[20px] h-[20px] m-[2px] rounded shadow-xl hover:shadow-2xl hover:scale-[1.2] transform-gpu transition-all duration-300 ${boxColor}`}
+                        />
+                        <Tooltip
+                          target={`#day-tooltip-${day}`}
+                          content={`Date: ${formattedDate}`}
+                          position="bottom"
+                        />
+                      </>
                     );
                   })}
                 </div>
