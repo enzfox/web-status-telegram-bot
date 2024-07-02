@@ -43,9 +43,9 @@ function Websites() {
         </div>
       </div>
 
-      <WebsiteForm showModal={showModal} closeModal={closeModal} />
-
       <WebsiteList refetch={shouldRefetchList} />
+
+      {showModal && <WebsiteForm closeModal={closeModal} />}
     </>
   );
 }

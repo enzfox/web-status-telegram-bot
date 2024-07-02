@@ -6,11 +6,9 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
 export default function WebsiteHistory({
-  showModal,
   closeModal,
   website,
 }: {
-  showModal: boolean;
   closeModal: () => void;
   website?: WebsiteInterface;
 }) {
@@ -33,7 +31,7 @@ export default function WebsiteHistory({
 
   return (
     <Dialog
-      visible={showModal}
+      visible={true}
       onHide={closeModal}
       header={`Website History (${website?.history?.length})`}
       className="w-[90%] max-w-[500px]"

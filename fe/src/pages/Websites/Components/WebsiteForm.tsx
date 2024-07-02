@@ -9,11 +9,9 @@ import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
 import { WebsiteInterface } from "../../../interfaces/WebsiteInterface";
 
 export default function WebsiteForm({
-  showModal,
   closeModal,
   website,
 }: {
-  showModal: boolean;
   closeModal: () => void;
   website?: WebsiteInterface;
 }) {
@@ -110,7 +108,7 @@ export default function WebsiteForm({
   return (
     <>
       <Dialog
-        visible={showModal}
+        visible={true}
         onHide={closeModal}
         header="Website Form"
         className="w-[90%] max-w-[500px]"

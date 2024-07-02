@@ -235,59 +235,19 @@ export default function WebsiteList({
                     const dayDate = new Date(startDate);
                     dayDate.setDate(dayDate.getDate() + day);
 
-                    const isDayInHistory = website.history?.some((history) => {
-                      const historyDate = new Date(history.date.seconds * 1000);
-                      return (
-                        historyDate.getDate() === dayDate.getDate() &&
-                        historyDate.getMonth() === dayDate.getMonth() &&
-                        historyDate.getFullYear() === dayDate.getFullYear() &&
-                        history.downTime > 0
-                      );
-                    });
+      {showFormModal && (
+        <WebsiteForm
+          closeModal={closeFormModal}
+          website={selectedFormWebsite}
+        />
+      )}
 
-                    const boxColor = isDayInHistory
-                      ? "bg-amber-600"
-                      : "bg-emerald-600";
-
-                    const options = { day: "numeric", month: "short" };
-                    const formattedDate = dayDate.toLocaleDateString(
-                      undefined,
-                      options as any,
-                    );
-
-                    return (
-                      <>
-                        <div
-                          id={`day-tooltip-${day}`}
-                          key={day}
-                          className={`w-[20px] h-[20px] m-[2px] rounded shadow-xl hover:shadow-2xl hover:scale-[1.2] transform-gpu transition-all duration-300 ${boxColor}`}
-                        />
-                        <Tooltip
-                          target={`#day-tooltip-${day}`}
-                          content={`Date: ${formattedDate}`}
-                          position="bottom"
-                        />
-                      </>
-                    );
-                  })}
-                </div>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <WebsiteForm
-        showModal={showFormModal}
-        closeModal={closeFormModal}
-        website={selectedFormWebsite}
-      />
-
-      <WebsiteHistory
-        showModal={showHistoryModal}
-        closeModal={closeHistoryModal}
-        website={selectedHistoryWebsite}
-      />
+      {showHistoryModal && (
+        <WebsiteHistory
+          closeModal={closeHistoryModal}
+          website={selectedHistoryWebsite}
+        />
+      )}
     </>
   );
 }
