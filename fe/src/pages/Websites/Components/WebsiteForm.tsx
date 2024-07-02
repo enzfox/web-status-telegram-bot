@@ -156,6 +156,7 @@ export default function WebsiteForm({
                 options={statusOptions}
                 onChange={handleInputChange}
                 placeholder="Select a status"
+                optionValue="value"
               />
             </div>
 
