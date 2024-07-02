@@ -25,7 +25,7 @@ export default function WebsiteList({
 
   const [showFormModal, setShowFormModal] = useState(false);
 
-  const [refetch, setRefetch] = useState<boolean>(initialRefetch);
+  const [refetch, setRefetch] = useState<boolean>(false);
 
   const [selectedFormWebsite, setSelectedFormWebsite] = useState<
     WebsiteInterface | undefined
