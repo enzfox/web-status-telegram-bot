@@ -29,7 +29,7 @@ export default function WebsiteForm({
       setFormData({
         name: website.name,
         website: website.website,
-        status: !!website.status,
+        status: website.status as boolean,
         isUp: website.isUp,
       });
     }
