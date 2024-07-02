@@ -33,7 +33,7 @@ export default function WebsiteForm({
         isUp: website.isUp,
       });
     }
-  }, [website]);
+  }, []);
 
   const [hasError, setHasError] = useState<boolean | string>(false);
 
