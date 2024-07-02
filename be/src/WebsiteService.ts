@@ -103,7 +103,7 @@ export class WebsiteService {
 
     if (!this.data.interval)
       this.data.interval = setInterval(
-        () => this.checkWebsite(),
+        async () => await this.checkWebsite(),
         secondsToMs(3),
       );
   }
