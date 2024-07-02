@@ -104,6 +104,14 @@ describe("WebsiteService", () => {
       expect(result).toBe(true);
     });
 
+    it("should return false after sending a down notification", async () => {
+      await websiteService.sendDownNotification();
+
+      const result = websiteService.canNotify();
+
+      expect(result).toBe(false);
+    });
+
     it("should return false when lastNotification is less than 10 minutes ago", () => {
       websiteService.data.lastNotification = firestore.Timestamp.fromDate(
         new Date(Date.now() - 5 * 60 * 1000), // 5 minutes ago
