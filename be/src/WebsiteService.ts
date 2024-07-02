@@ -73,7 +73,7 @@ export class WebsiteService {
     return minutes >= 10;
   }
 
-  updateData(data: any): void {
+  updateData(data: Partial<WebsiteData>): void {
     this.data = { ...this.data, ...data };
 
     this.websiteRepository.updateWebsite(this.data).then();
