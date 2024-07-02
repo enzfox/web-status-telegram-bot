@@ -1,0 +1,53 @@
+@startuml
+
+class App {
+  -websiteServices: WebsiteService[]
+  -websiteRepository: WebsiteRepository
+  +init(): Promise<void>
+  +updateWebsitesData(): Promise<void>
+  +checkWebsites(): void
+}
+
+class WebsiteService {
+  -data: WebsiteData
+  -websiteRepository: WebsiteRepository
+  -telegramService: TelegramService
+  +checkWebsite(): Promise<void>
+  +isUp(): Promise<boolean>
+  +canNotify(): boolean
+  +updateData(data: any): void
+  +updateHistoryStatus(downTime: number): Promise<void>
+  +sendDownNotification(): Promise<void>
+  +sendRecoveryNotification(): Promise<void>
+}
+
+class WebsiteRepository {
+  -firebaseService: FirebaseService
+  +getWebsites(): Promise<WebsiteData[]>
+  +updateWebsite(websiteData: WebsiteData): Promise<void>
+  +updateWebsiteStatus(websiteData: WebsiteData, downTime: number): Promise<void>
+}
+
+class TelegramService {
+  -telegram: TelegramBot
+  -firebaseService: FirebaseService
+  -instance: TelegramService
+  +initTelegram(): void
+  +getInstance(): TelegramService
+  +sendMessage(message: string): void
+}
+
+class FirebaseService {
+  -db: admin.firestore.Firestore
+  -configData: ConfigData | undefined
+  +fetchConfig(): Promise<void>
+  +getConfigData(): Promise<ConfigData>
+}
+
+App --> WebsiteService
+App --> WebsiteRepository
+WebsiteService --> WebsiteRepository
+WebsiteService --> TelegramService
+WebsiteRepository --> FirebaseService
+
+@enduml
