@@ -126,7 +126,9 @@ export default function WebsiteList({
     fetchWebsites().then();
 
     if (refetch || initialRefetch) {
-      fetchWebsites().then();
+      fetchWebsites().then(() => {
+        setRefetch(false);
+      });
     }
   }, [refetch, initialRefetch]);
 
